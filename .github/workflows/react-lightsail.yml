@@ -30,25 +30,27 @@ jobs:
 
    
 
-      - name: 서버로 복사
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-              # GluveFront 폴더 확인 후 없으면 생성
+          - name: 서버로 복사
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.SSH_HOST }}
+            username: ${{ secrets.SSH_USERNAME }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+              # Ensure GluveFront 폴더 exists; create if not
               if [ ! -d "/GluveFront/dist" ]; then
                 sudo mkdir -p /GluveFront/dist
               fi
-            
-             
-              echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-              chmod 600 ~/.ssh/id_rsa
-              
-              # 빌드된 작업물만 복사
-              scp -o StrictHostKeyChecking=no -rv dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
         
+              # Write SSH_PRIVATE_KEY to a file
+              echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+              chmod 600 $HOME/.ssh/id_rsa
+        
+              # Debug: Print the content of id_rsa for troubleshooting
+              cat $HOME/.ssh/id_rsa
+        
+              # Copy only the built artifacts
+              scp -o StrictHostKeyChecking=no -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
         
       - name: React 앱 빌드
         run: |
