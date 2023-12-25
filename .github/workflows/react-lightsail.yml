@@ -38,6 +38,6 @@ jobs:
             if [ ! -d "/GluveFront/dist" ]; then
               sudo mkdir -p /GluveFront/dist
             fi
-
+            ssh-keygen -R [${{ secrets.SSH_HOST }}]
             # 빌드된 작업물만 복사
-              scp -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
+            scp -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
