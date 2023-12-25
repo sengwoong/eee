@@ -36,10 +36,9 @@ jobs:
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
             chmod 644 ~/.ssh/known_hosts
-            ssh ${SSH_USERNAME}@${SSH_HOST} "sudo chmod -R 755 /GluveFront/dist/"
             scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
 
 
-      - name: Rollback
+      - name: 전체 검색
         run: |
           ls -al
