@@ -30,9 +30,9 @@ jobs:
 
    
 
-          - name: 서버로 복사
-          uses: appleboy/ssh-action@master
-          with:
+      - name: 서버로 복사
+        uses: appleboy/ssh-action@master
+        with:
             host: ${{ secrets.SSH_HOST }}
             username: ${{ secrets.SSH_USERNAME }}
             key: ${{ secrets.SSH_PRIVATE_KEY }}
