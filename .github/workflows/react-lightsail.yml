@@ -3,7 +3,7 @@ name: 프론트엔드 배포
 on:
   push:
     branches:
-      - development
+      - main
 
 jobs:
   deploy:
