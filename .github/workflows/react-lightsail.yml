@@ -9,42 +9,36 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    
     steps:
-      - name: 저장소 체크아웃
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Node.js 설정
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '19'
+          node-version: '14'  # Adjust the Node.js version to your requirement
 
-      - name: 의존성 설치
-        run: |
-          sudo npm install
+      - name: Install Dependencies
+        run: npm install
 
-      - name: React 앱 빌드
-        run: |
-          sudo npm run build
-          ls
-
-
+      - name: Build Vite App
+        run: npm run build
+        # Add any additional build steps or commands if needed
 
   deploy:
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-      needs: build
+    needs: build
+    steps:
+      - name: SCP Action
+        run: |
+            mkdir -p ~/.ssh
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+            chmod 644 ~/.ssh/known_hosts
+            scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
 
-      steps:
-
-        - name: 출력
-          run: |
-           ls -al
-
-        - name: AWS CLI를 사용하여 파일 복사
-          run: |
-             aws scp -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
-      
-        - name: 롤백
-          run: |
-           롤백
+      - name: Rollback
+        run: |
+          ls -al
