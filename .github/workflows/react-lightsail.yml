@@ -1,4 +1,4 @@
-name: 프론트엔드 배포
+name: Build and Deploy Vite App
 
 on:
   push:
@@ -6,9 +6,10 @@ on:
       - master
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
+    
     steps:
       - name: 저장소 체크아웃
         uses: actions/checkout@v2
@@ -28,39 +29,23 @@ jobs:
           ls
 
 
-   
 
-      - name: 서버로 복사
-        uses: appleboy/ssh-action@master
-        with:
-            host: ${{ secrets.SSH_HOST }}
-            username: ${{ secrets.SSH_USERNAME }}
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            script: |
-              # Ensure GluveFront 폴더 exists; create if not
-              if [ ! -d "/GluveFront/dist" ]; then
-                sudo mkdir -p /GluveFront/dist
-              fi
-        
-              # # Write SSH_PRIVATE_KEY to a file
-              # echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
-              # chmod 600 $HOME/.ssh/id_rsa
-        
-              # # Debug: Print the content of id_rsa for troubleshooting
-              # cat $HOME/.ssh/id_rsa
-        
-              # # Set correct ownership and permissions for the SSH directory
-              # chown -R $USER:$USER $HOME/.ssh
-              # chmod 700 $HOME/.ssh
-              # chmod 600 $HOME/.ssh/id_rsa
-        
-              # Ensure correct permissions for known_hosts file
-              touch $HOME/.ssh/known_hosts
-              chmod 644 $HOME/.ssh/known_hosts
-        
-              # Copy only the built artifacts
-              ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.AWS_SSH_USER }}@${{ secrets.SERVER_HOST }} 
-              scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -r dist/ ${{ secrets.AWS_SSH_USER }}@${{ secrets.SERVER_HOST }}:/GluveFront/dist
-      - name: React 앱 빌드
-        run: |
-          롤백
+  deploy:
+      runs-on: ubuntu-latest
+
+      needs: build
+
+      steps:
+        - name: Copy files to Lightsail instance
+          uses: appleboy/scp-action@v1
+          with:
+            host: ${{ secrets.LIGHTSAIL_HOST }}
+            username: ${{ secrets.LIGHTSAIL_USERNAME }}
+            key: ${{ secrets.LIGHTSAIL_PRIVATE_KEY }}
+            source: "dist/*"
+            target: "/path/to/lightsail/htdocs"
+      
+
+        - name: 롤백
+          run: |
+           롤백
