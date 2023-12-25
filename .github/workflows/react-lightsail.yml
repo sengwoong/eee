@@ -43,7 +43,7 @@ jobs:
             username: ${{ secrets.LIGHTSAIL_USERNAME }}
             key: ${{ secrets.LIGHTSAIL_PRIVATE_KEY }}
             source: "dist/*"
-            target: "/path/to/lightsail/htdocs"
+            target: "/GluveFront/dist"
       
 
         - name: 롤백
