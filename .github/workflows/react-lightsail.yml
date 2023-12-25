@@ -23,25 +23,17 @@ jobs:
 
       - name: Build Vite App
         run: npm run build
-          
         # Add any additional build steps or commands if needed
 
-
-    
-
-    
       - name: SCP Action
         run: |
-        
             mkdir -p ~/.ssh
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
             chmod 644 ~/.ssh/known_hosts
-            ls -al
-            scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
+            scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:~/GluveFront/dist/
 
-
-      - name: 전체 검색
+      - name: Rollback
         run: |
           ls -al
