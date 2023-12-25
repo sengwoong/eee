@@ -40,4 +40,4 @@ jobs:
             fi
 
             # 빌드된 작업물만 복사
-            aws scp -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
+              scp -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
