@@ -43,13 +43,11 @@ jobs:
               fi
             
              
-              # Disable known hosts checking for this session
-              export SSHPASS=$PASS
-              ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-              # 빌드된 작업물만 복사
-              scp -o StrictHostKeyChecking=no -rv dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
-        
+              echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+              chmod 600 ~/.ssh/id_rsa
+    
+              # Your deployment commands here
+              scp -r -o StrictHostKeyChecking=no dist/ user@hostname:/path/to/destination
         
       - name: React 앱 빌드
         run: |
