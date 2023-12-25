@@ -28,12 +28,12 @@ jobs:
           ls
 
 
-      # - name: SSH 키 설정
-      #   run: |
-      #     mkdir -p $HOME/.ssh
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > $HOME/.ssh/id_rsa
-      #     chmod 600 $HOME/.ssh/id_rsa
-      #     ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
+      - name: SSH 키 설정
+        run: |
+          mkdir -p $HOME/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > $HOME/.ssh/id_rsa
+          chmod 600 $HOME/.ssh/id_rsa
+          ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> $HOME/.ssh/known_hosts
 
       - name: 서버로 복사
         uses: appleboy/ssh-action@master
