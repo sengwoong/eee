@@ -42,13 +42,16 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # GluveFront 폴더 확인 후 없으면 생성
-            if [ ! -d "/GluveFront/dist" ]; then
-              sudo mkdir -p /GluveFront/dist
-            fi
-            ssh-keygen -R [${{ secrets.SSH_HOST }}]
-            # 빌드된 작업물만 복사
-            scp -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
+              # GluveFront 폴더 확인 후 없으면 생성
+              if [ ! -d "/GluveFront/dist" ]; then
+                sudo mkdir -p /GluveFront/dist
+              fi
+            
+              # 이전에 연결한 호스트 키를 삭제
+              ssh-keygen -R ${{ secrets.SSH_HOST }}
+            
+              # 빌드된 작업물만 복사
+              scp -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
         
         
       - name: React 앱 빌드
