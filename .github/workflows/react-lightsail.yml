@@ -37,7 +37,7 @@ jobs:
             ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
             chmod 644 ~/.ssh/known_hosts
             ssh ${SSH_USERNAME}@${SSH_HOST} "sudo chmod -R 755 /GluveFront/dist/"
-            sudo scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
+            scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
 
 
       - name: Rollback
