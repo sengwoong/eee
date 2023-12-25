@@ -47,11 +47,9 @@ jobs:
                 sudo mkdir -p /GluveFront/dist
               fi
             
-              # 이전에 연결한 호스트 키를 삭제
-              ssh-keygen -R ${{ secrets.SSH_HOST }}
-            
+             
               # 빌드된 작업물만 복사
-              scp -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist/
+              scp -rv dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
         
         
       - name: React 앱 빌드
