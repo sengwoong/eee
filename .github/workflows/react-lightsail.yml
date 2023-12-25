@@ -23,6 +23,7 @@ jobs:
 
       - name: Build Vite App
         run: npm run build
+          ls
         # Add any additional build steps or commands if needed
 
 
