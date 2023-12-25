@@ -49,6 +49,11 @@ jobs:
               # Debug: Print the content of id_rsa for troubleshooting
               cat $HOME/.ssh/id_rsa
         
+              # Set correct ownership and permissions for the SSH directory
+              chown -R $USER:$USER $HOME/.ssh
+              chmod 700 $HOME/.ssh
+              chmod 600 $HOME/.ssh/id_rsa
+        
               # Copy only the built artifacts
               scp -o StrictHostKeyChecking=no -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
         
