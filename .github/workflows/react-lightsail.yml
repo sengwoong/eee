@@ -45,9 +45,10 @@ jobs:
              
               echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
               chmod 600 ~/.ssh/id_rsa
-    
-              # Your deployment commands here
-              scp -r -o StrictHostKeyChecking=no dist/ user@hostname:/path/to/destination
+              
+              # 빌드된 작업물만 복사
+              scp -o StrictHostKeyChecking=no -rv dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
+        
         
       - name: React 앱 빌드
         run: |
