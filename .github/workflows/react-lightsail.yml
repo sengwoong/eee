@@ -42,24 +42,24 @@ jobs:
                 sudo mkdir -p /GluveFront/dist
               fi
         
-              # Write SSH_PRIVATE_KEY to a file
-              echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
-              chmod 600 $HOME/.ssh/id_rsa
+              # # Write SSH_PRIVATE_KEY to a file
+              # echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+              # chmod 600 $HOME/.ssh/id_rsa
         
-              # Debug: Print the content of id_rsa for troubleshooting
-              cat $HOME/.ssh/id_rsa
+              # # Debug: Print the content of id_rsa for troubleshooting
+              # cat $HOME/.ssh/id_rsa
         
-              # Set correct ownership and permissions for the SSH directory
-              chown -R $USER:$USER $HOME/.ssh
-              chmod 700 $HOME/.ssh
-              chmod 600 $HOME/.ssh/id_rsa
+              # # Set correct ownership and permissions for the SSH directory
+              # chown -R $USER:$USER $HOME/.ssh
+              # chmod 700 $HOME/.ssh
+              # chmod 600 $HOME/.ssh/id_rsa
         
               # Ensure correct permissions for known_hosts file
               touch $HOME/.ssh/known_hosts
               chmod 644 $HOME/.ssh/known_hosts
         
               # Copy only the built artifacts
-              scp -o StrictHostKeyChecking=no -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
+              sudo scp -o StrictHostKeyChecking=no -r dist/ ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/GluveFront/dist
         
       - name: React 앱 빌드
         run: |
