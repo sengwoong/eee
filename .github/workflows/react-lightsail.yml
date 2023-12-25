@@ -37,7 +37,7 @@ jobs:
 
       steps:
         - name: Copy files to Lightsail instance
-          uses: appleboy/scp-action@v1
+          uses: appleboy/scp-action@master
           with:
             host: ${{ secrets.LIGHTSAIL_HOST }}
             username: ${{ secrets.LIGHTSAIL_USERNAME }}
