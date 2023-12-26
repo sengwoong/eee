@@ -35,8 +35,8 @@ export const applyForRecruit = async (recruitId) => {
 // Function to cancel recruit application
 export const cancelRecruitApplication = async (recruitId) => {
   try {
-    const numericRecruitId = parseInt(recruitId, 10);
-    const response = await axiosInstance.delete(`recruits/1/apply/`);
+  
+    const response = await axiosInstance.delete(`recruits/${recruitId}/apply/`);
     console.log(response)
     return response.data;
   } catch (error) {
