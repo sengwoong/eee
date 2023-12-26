@@ -27,7 +27,7 @@ jobs:
 
       - name: SCP Action
         run: |
-            mkdir -p ~/.ssh
+            mkdir -p ~/.ssh2
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
