@@ -17,7 +17,5 @@ export default defineConfig({
       }
     },
   },
-  define: {
-    __APP_ENV__: process.env.VITE_MY_VARIABLE,
-  },
+ 
 });
